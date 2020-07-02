@@ -1,14 +1,23 @@
-import BaseLayout from "../components/layouts/BaseLayout";
-import BasePage from "../components/BasePage";
-// import Link from 'next/link';
-import { Link } from "../routes";
+import { useEffect } from "react";
+import BaseLayout from "@/components/layouts/BaseLayout";
+import BasePage from "@/components/BasePage";
+import Link from "next/link";
 import axios from "axios";
 
 const Portfolios = ({ posts }) => {
+  useEffect(() => {
+    async function getPosts() {
+      const res = await fetch("/api/v1/posts");
+      const data = await res.json();
+    }
+
+    getPosts();
+  }, []);
+
   const renderPosts = (posts) => {
     return posts.map((post) => (
       <li key={post.id} style={{ fontSize: "20px" }}>
-        <Link route={`/portfolios/${post.id}`}>
+        <Link as={`/portfolios/${post.id}`} href="/portfolios/[id]">
           <a>{post.title}</a>
         </Link>
       </li>
